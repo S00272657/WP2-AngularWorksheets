@@ -1,0 +1,24 @@
+.card {
+  height: 100%;
+  padding: 1.25rem;
+  border: 1px solid #d8e1ec;
+  border-radius: 0.75rem;
+  background: #fff;
+  box-shadow: 0 3px 10px rgb(31 41 55 / 8%);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgb(31 41 55 / 13%);
+}
+
+h3 {
+  margin: 0 0 0.5rem;
+  color: #174a7e;
+}
+
+p {
+  margin: 0;
+  color: #4b5563;
+}
