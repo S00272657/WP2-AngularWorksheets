@@ -15,4 +15,9 @@ private apiUrl = 'http://localhost:3000/api/v1/cars'; // this should be read fro
   getCars(): Observable<Car[]> {
     return this.http.get<Car[]>(this.apiUrl)
   }
+
+  getCarById(id: string): Observable<Car> {
+    return this.http.get<Car>(`${this.apiUrl}/${id}`);
+  }
+
 }
