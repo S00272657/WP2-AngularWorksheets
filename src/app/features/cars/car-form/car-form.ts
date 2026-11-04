@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angu
 import { Car } from '../models/car.model';
 import { CarService } from '../services/car.service';
 import { Router } from '@angular/router';
+import { signal } from '@angular/core';
+import { CreateCarDto } from '../models/car.model';
 
 @Component({
   selector: 'app-car-form',
@@ -22,23 +24,28 @@ export class CarForm {
     year: new FormControl<number | null>(null),
   });
 
+  saving = signal(false);
+  saveError = signal<string | null>(null);
+
+
   onSubmit(): void {
-    if (this.carForm.invalid) {
-      this.carForm.markAllAsTouched();
-      return;
-    }
 
     const { make, model, year } = this.carForm.getRawValue();
-    const newCar: Car = {make, model, year: year ?? undefined };
+    const newCar: CreateCarDto = { make, model, year: year ?? undefined };
+
+    this.saving.set(true);
+    this.saveError.set(null);
 
     this.carService.addCar(newCar).subscribe({
       next: (response) => {
         console.log('Car added successfully:', response);
-        this.router.navigate(['/cars']); 
+        this.router.navigate(['/cars']);
       },
-      error: (error: unknown) => {
-        console.error('Error adding car:', error);
-      },
+    error: (err: Error) => {
+      this.saveError.set(err.message);
+      this.saving.set(false);
+    },
     });
   }
+
 }
