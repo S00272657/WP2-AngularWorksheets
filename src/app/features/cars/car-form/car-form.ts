@@ -29,14 +29,10 @@ export class CarForm {
     }
 
     const { make, model, year } = this.carForm.getRawValue();
-    const carData: Car = {
-      make,
-      model,
-      ...(year !== null ? { year } : {}),
-    };
+    const newCar: Car = {make, model, year: year ?? undefined };
 
-    this.carService.addCar(carData).subscribe({
-      next: (response: Car) => {
+    this.carService.addCar(newCar).subscribe({
+      next: (response) => {
         console.log('Car added successfully:', response);
         this.router.navigate(['/cars']); 
       },
