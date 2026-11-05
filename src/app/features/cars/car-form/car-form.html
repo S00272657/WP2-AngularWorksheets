@@ -21,30 +21,42 @@
 
   <!-- Model Field -->
   <div class="form-group">
-    <mat-form-field appearance="outline" >
+    <mat-form-field appearance="outline">
       <mat-label>Model</mat-label>
       <input matInput formControlName="model" placeholder="e.g. Corolla" />
-      <mat-error>Model is required</mat-error>
+
+      @if (carForm.controls.make.hasError('required')) {
+      <mat-error>Make is required</mat-error>
+      } @else if (carForm.controls.make.hasError('maxlength')) {
+      <mat-error>Make must be 30 characters or fewer</mat-error> }
+  
     </mat-form-field>
   </div>
 
 
   <!-- Year Field -->
   <div class="form-group">
-    <mat-form-field appearance="outline" >
+    <mat-form-field appearance="outline">
       <mat-label>Year</mat-label>
       <input matInput formControlName="year" placeholder="e.g. 2022" />
       <mat-hint>Optional</mat-hint>
+
+      @if (carForm.controls.year.hasError('min')) {
+      <mat-error>Year must be 1950 or later</mat-error>
+      } @else if (carForm.controls.year.hasError('max')) {
+      <mat-error>Year must be {{ currentYear + 1 }} or earlier</mat-error>
+      }
     </mat-form-field>
   </div>
 
   <!-- Action Buttons -->
   @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
-    <div class="button-group">
-      <button type="submit" [disabled]="saving()">
-        {{ saving() ? 'Saving...' : 'Save car' }}
-      </button>
-      <a routerLink="/cars">Cancel</a>
-    </div>
-
-</form>
+  <div class="button-group">
+    <button matButton="filled" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Save car' }}
+    </button>
+    <a matButton routerLink="/cars">Cancel</a>
+  
+  </div>
+  
+  </form>
