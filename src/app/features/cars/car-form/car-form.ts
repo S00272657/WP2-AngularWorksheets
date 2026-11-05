@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Car } from '../models/car.model';
 import { CarService } from '../services/car.service';
 import { Router } from '@angular/router';
+import { signal } from '@angular/core';
+import { CreateCarDto } from '../models/car.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-car-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,27 +24,28 @@ export class CarForm {
     year: new FormControl<number | null>(null),
   });
 
+  saving = signal(false);
+  saveError = signal<string | null>(null);
+
+
   onSubmit(): void {
-    if (this.carForm.invalid) {
-      this.carForm.markAllAsTouched();
-      return;
-    }
 
     const { make, model, year } = this.carForm.getRawValue();
-    const carData: Car = {
-      make,
-      model,
-      ...(year !== null ? { year } : {}),
-    };
+    const newCar: CreateCarDto = { make, model, year: year ?? undefined };
 
-    this.carService.addCar(carData).subscribe({
-      next: (response: Car) => {
+    this.saving.set(true);
+    this.saveError.set(null);
+
+    this.carService.addCar(newCar).subscribe({
+      next: (response) => {
         console.log('Car added successfully:', response);
-        this.router.navigate(['/cars']); 
+        this.router.navigate(['/cars']);
       },
-      error: (error: unknown) => {
-        console.error('Error adding car:', error);
-      },
+    error: (err: Error) => {
+      this.saveError.set(err.message);
+      this.saving.set(false);
+    },
     });
   }
+
 }
