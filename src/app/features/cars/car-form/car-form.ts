@@ -5,10 +5,21 @@ import { Router } from '@angular/router';
 import { signal } from '@angular/core';
 import { CreateCarDto } from '../models/car.model';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-car-form',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [
+    ReactiveFormsModule, 
+    RouterLink, 
+    MatButtonModule, 
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule
+],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
