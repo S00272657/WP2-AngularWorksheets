@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-car-form',
@@ -18,7 +19,8 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule, 
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressBarModule
 ],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
@@ -42,6 +44,7 @@ export class CarForm {
 
 
   onSubmit(): void {
+    this.carForm.disable()
 
     const { make, model, year } = this.carForm.getRawValue();
     const newCar: CreateCarDto = { make, model, year: year ?? undefined };
@@ -57,6 +60,7 @@ export class CarForm {
     error: (err: Error) => {
       this.saveError.set(err.message);
       this.saving.set(false);
+      this.carForm.enable()
     },
     });
   }
