@@ -4,9 +4,17 @@
 
   <!-- Make Field -->
   <div class="form-group">
-    <mat-form-field appearance="outline" >
+    <mat-form-field appearance="outline">
       <mat-label>Make</mat-label>
       <input matInput formControlName="make" placeholder="e.g. Toyota" />
+
+      @if (carForm.controls.make.hasError('required')) {
+        <mat-error>Make is required</mat-error>
+      } @else if (carForm.controls.make.hasError('minlength')) {
+        <mat-error>Make must be at least 2 characters</mat-error>
+      } @else if (carForm.controls.make.hasError('maxlength')) {
+        <mat-error>Make must be 30 characters or fewer</mat-error>
+      }
     </mat-form-field>
   </div>
 
@@ -16,10 +24,9 @@
     <mat-form-field appearance="outline" >
       <mat-label>Model</mat-label>
       <input matInput formControlName="model" placeholder="e.g. Corolla" />
+      <mat-error>Model is required</mat-error>
     </mat-form-field>
   </div>
-
-
 
 
   <!-- Year Field -->
