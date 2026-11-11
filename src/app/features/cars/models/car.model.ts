@@ -10,3 +10,10 @@ export interface CreateCarDto {
   model: string;
   year?: number;
 }
+
+export interface UpdateCarDto {
+  make: string;
+  model: string;
+  year?: number;
+}
+
