@@ -1,4 +1,12 @@
 <main>
   <h1>2026 Client Application for Worksheets</h1>
+
+  @if (auth.isAuthenticated()) {
+  <span>{{ auth.currentUser()?.email }}</span>
+  <button mat-button (click)="auth.logout()">Logout</button>
+  } @else {
+  <a mat-button routerLink="/login">Login</a>
+  }
+
   <router-outlet />
 </main>
