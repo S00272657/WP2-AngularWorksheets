@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { input } from '@angular/core';
 import { notBlank } from '../../../../shared/validators/not-blank.validator';
 import { RegisterUserDto } from '../../../../core/models/user';
+import { AuthCustomService } from '../../../../core/auth/auth-custom.service';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,7 @@ import { RegisterUserDto } from '../../../../core/models/user';
 export class Register {
 
   private readonly formBuilder = inject(FormBuilder);
-  //private readonly carService = inject(CarService);
+  private readonly authService = inject(AuthCustomService);
   private readonly router = inject(Router)
   private snackBar = inject(MatSnackBar);
 
