@@ -11,7 +11,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withInterceptors([errorInterceptor])),
     provideHttpClient(withInterceptors([errorInterceptor, AuthInterceptor])),
   ]
 };
