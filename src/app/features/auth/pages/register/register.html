@@ -1,0 +1,60 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+  <h2>Registration Form</h2>
+
+  @if (saving()) {
+  <mat-progress-bar mode="buffer" />
+  }
+
+  <!-- Name Field -->
+  <div class="form-group">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g. David" />
+
+      @if (registerForm.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      }
+
+    </mat-form-field>
+  </div>
+
+
+  <!-- Email Field -->
+  <div class="form-group">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="e.g. david@example.com" />
+
+      @if (registerForm.controls.email.hasError('required')) {
+      <mat-error>Email is required</mat-error>
+      } 
+  
+    </mat-form-field>
+  </div>
+
+
+  <!-- Password Field -->
+  <div class="form-group">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password"/>
+      <mat-hint>Optional</mat-hint>
+
+        @if (registerForm.controls.password.hasError('required')) {
+            <mat-error>Password is required</mat-error>
+        }
+
+    </mat-form-field>
+  </div>
+
+  <!-- Action Buttons -->
+  @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
+  <div class="button-group">
+    <button matButton="filled" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Register' }}
+    </button>
+    <a matButton routerLink="/cars">Cancel</a>
+  
+  </div>
+  
+  </form>
