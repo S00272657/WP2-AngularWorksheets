@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs';
 import { LoadState, withLoadState } from '../../../shared/load-state';
 import { RouterLink, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthCustomService } from '../../../core/auth/auth-custom.service';
 
 
 @Component({
@@ -17,17 +18,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CarDetails {
 
   private carService = inject(CarService);
-
   readonly id = input.required<string>();
-
   readonly initial: LoadState<Car> = { status: 'loading' };
-
   private readonly router = inject(Router);
-
   readonly deleting = signal(false);
-
   readonly deleteError = signal<string | null>(null);
   private snackBar = inject(MatSnackBar);
+  private authService = inject(AuthCustomService);
+  isAuthenicated = this.authService.isAuthenticated;
+
 
 
   state = toSignal(
