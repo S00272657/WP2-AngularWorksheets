@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthCustomService } from '../../../../core/auth/auth-custom.service';
 import { LoginUserDto } from '../../../../core/models/user';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,8 @@ export class LoginComponent {
   private authService = inject(AuthCustomService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  returnUrl: string = '';
+  private route = inject(ActivatedRoute)
 
   readonly submitting = signal(false);
 
@@ -28,6 +31,11 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
+
+  ngOnInit(){
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
 
   onSubmit(): void {
     if (this.loginForm.invalid) return;
@@ -40,7 +48,7 @@ export class LoginComponent {
       .login(userCredentials)
       .pipe(finalize(() => this.submitting.set(false)))
       .subscribe({
-        next: () => this.router.navigateByUrl('/'),
+        next: () => this.router.navigateByUrl(this.returnUrl),
         error: () => this.openErrorSnackBar('Incorrect email or password')
       });
   }
